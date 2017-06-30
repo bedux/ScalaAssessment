@@ -1,0 +1,13 @@
+@(form:Form[TextForm.Text],postUrl:Call)(implicit request: RequestHeader, messages: Messages)
+@main("Insert query") {
+    <p>
+        2.1 Query Option will ask the user for the country name or code and print the airports & runways at each airport.
+    </p>
+
+    @helper.form(postUrl) {
+        @helper.CSRF.formField
+
+        @helper.inputText(form("text"))
+        <button>Go</button>
+    }
+}

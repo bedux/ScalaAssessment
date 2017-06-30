@@ -1,0 +1,57 @@
+@(result: ReportResult)
+
+@main("Report") {
+    <table>
+        <caption>10 countries with highest number of airports</caption>
+        <tr><th>Country Name </th><th>Airport Count </th></tr>
+        @for((country, count) <- result.hAirport) {
+            <tr>
+                <td> @country.name </td>
+                <td> @count </td>
+            </tr>
+        }
+    </table>
+
+
+    <table>
+        <caption>10 countries with  lowest number of airports</caption>
+        <tr><th>Country Name </th><th>Airport Count </th></tr>
+        @for((country,count)<-result.lAirport){
+            <tr>
+                <td> @country.name </td>
+                <td> @count </td>
+            </tr>
+        }
+    </table>
+
+    <div>
+        <caption>Type of runways (as indicated in "surface" column) per country</caption>
+
+
+        @for((country,runways)<-result.runwaysCountry){
+            <table>
+                <caption>@country.name</caption>
+                @for(r<-runways) {
+                    @if(!r.isEmpty) {
+                        <tr>
+
+                            <td> @r </td>
+
+                        </tr>
+                    }
+                }
+            </table>
+        }
+    </div>
+
+    <div>
+        <caption>Print the top 10 most common runway identifications (indicated in "le_ident" column)</caption>
+        <table>
+        @for(runway<-result.commonRunway){
+            <tr><td>
+                @runway
+            </td></tr>
+        }
+        </table>
+    </div>
+}

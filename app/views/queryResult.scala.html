@@ -1,0 +1,59 @@
+@(result:List[(Airport,List[Runway])])
+@main("Query") {
+    @for((a, rs) <- result) {
+
+        <table>
+            <caption>Airport Name: @a.name | Country: @a.iso_country | Identify: @a.ident   </caption>
+            <tr>
+                <th>
+                Id
+                </th>
+                <th>
+                airport_ref
+                </th>
+                <th>
+                airport_ident
+                </th>
+                <th>
+                length_ft
+                </th>
+                <th>
+                width_ft
+                </th>
+                <th>
+                Surface
+                </th>
+                <th>
+                le_ident
+                </th>
+            </tr>
+            @for(rl <- rs) {
+                <tr>
+                    <td>
+                    @rl.id
+                    </td>
+                    <td>
+                    @rl.airport_ref
+                    </td>
+                    <td>
+                    @rl.airport_ident
+                    </td>
+                    <td>
+                    @rl.length_ft
+                    </td>
+                    <td>
+                    @rl.width_ft
+                    </td>
+                    <td>
+                    @rl.surface
+                    </td>
+                    <td>
+                    @rl.le_ident
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+    }
+}

@@ -7,37 +7,54 @@ import org.scalatestplus.play.PlaySpec
   * Created by bedux on 29.06.17.
   */
 
-case class RunwayTest(id:Int,airport_ref:Int,le_ident: String,surface: String) extends Runway{
-  override val airport_ident: String = ""
-  override val width_ft: Option[Int] = None
-  override val length_ft: Option[Int] = None
-}
-case class CountryTest(id: Int,airports: List[Airport],code: String) extends Country {
-  override val wikipedia_link: String = ""
-  override val continent: String = ""
-  override val name: String = ""
-  override val keywords: String = ""
-}
-case class AirportTest(id: Int,runways: List[Runway],ident: String,iso_country: String )extends Airport{
-  override val name: String = ""
-  override val atype: String = ""
-}
-
-
-class RepoTest extends PlaySpec {
-      implicit val contextTest:Context = new Context {
-        val r1 = RunwayTest(3,2,"B12","GRASS")
-        val a1 = AirportTest(2,List(r1),"UTC","IT")
-        val c1 = CountryTest(1,List(a1),"IT")
-
-        override val Runways: List[Runway] = List(r1)
-        override val Countries: List[Country] = List(c1)
-        override val Airports: List[Airport] = List(a1)
-      }
-
+class SimpleRepoTest extends PlaySpec {
+  import TestContext.simpleContext
   "Report TopCommonRunway" must {
     "Contains" in {
       Report.TopCommonRunway(1).contains("B12") mustBe true
     }
   }
+}
+
+
+class ComplexRepoTest  extends PlaySpec {
+  import TestContext.complexContext
+  "Country with highest number of airport " must {
+     "Be" in {
+       val res  = Report.getNCountriesAirport(1)._1
+       println(res)
+       res.length mustBe 1
+       res.head._1.code mustBe "IT"
+       res.head._2 mustBe 2
+     }
+  }
+  "Country with lowest number of airport " must {
+    "Be" in {
+      val res = Report.getNCountriesAirport(1)._2
+      println(res)
+      res.length mustBe 1
+      res.head._1.code mustBe "SP"
+      res.head._2 mustBe 1
+    }
+  }
+  "Type of runways (as indicated in \"surface\" column) per country" must {
+      "Be" in {
+        val res = Report.GetTypeOfRunways()
+
+        println(res)
+        res.length mustBe 2
+        val IT = res.filter( a => a._1.code == "IT").head
+        IT._2.length mustBe 2
+        IT._2.contains("GRASS") mustBe true
+        IT._2.contains("WOOD") mustBe true
+
+
+        val SP = res.filter( a => a._1.code == "SP").head
+        SP._2.length mustBe 1
+        SP._2.contains("GRASS") mustBe true
+      }
+    }
+
+  "Print the top 10 most common runway identifications (indicated in \"le_ident\" column)"
+
 }

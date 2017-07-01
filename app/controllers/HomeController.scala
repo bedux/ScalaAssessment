@@ -27,23 +27,6 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index())
   }
-
-  def query() = Action { implicit request: Request[AnyContent] =>
-    val querys:String = ""
-    val p1 = Query.getAirportsAndRunwayIn(querys.toLowerCase)
-    Ok(Json.toJson(p1))
-  }
-
-
-  def repo() = Action { implicit request: Request[AnyContent] =>
-    println("Start")
-
-    val nAirport = Report.getNCountriesAirport(10)
-    val runwayXCountry = Report.GetTypeOfRunways()
-    val comonRunway = Report.TopCommonRunway(10)
-    val res = ReportResult(nAirport._1,nAirport._2,runwayXCountry,comonRunway)
-   Ok(Json.toJson(res))
-  }
 }
 
 

@@ -26,7 +26,7 @@ class QueryController @Inject()(cc: ControllerComponents) extends AbstractContro
     val c = TextForm.form.bindFromRequest()
     println(c)
     c.fold(_ => BadRequest("Errors"),(s)=>{
-      val p1:List[(Airport,List[Runway])] = Query.getAirportsAndRunwayIn(s.text.toLowerCase)
+      val p1:List[(Airport,List[Runway])] = Query.getAirportsAndRunwayIn(s.text)
       Ok(views.html.queryResult(p1))
     })
 

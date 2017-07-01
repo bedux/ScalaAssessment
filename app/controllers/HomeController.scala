@@ -3,11 +3,7 @@ package controllers
 import javax.inject._
 
 import play.api.mvc._
-import play.api.libs.json._
-import logic.{Query, Report}
-import converter.JsonConverter._
-import models.ReportResult
-import models.CurrentDB._
+
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the

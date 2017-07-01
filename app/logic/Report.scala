@@ -15,19 +15,26 @@ object Report {
   }
 
 
+  //Type of runways (as indicated in "surface" column) per country
   def GetTypeOfRunways()(implicit context:Context):List[(Country,List[String])] ={
-    context.Countries.map(x=>(x,x.airports.flatMap(_.runways).map(_.surface.toUpperCase).distinct)).filter(_._2.nonEmpty)
+    context.Countries
+            .map(x=>(x,x.airports
+                        .flatMap(_.runways)
+                        .map(_.surface.toUpperCase)
+                        .distinct))
+            .filter(_._2.nonEmpty)
+              .sortBy(_._2.length)
+              .reverse
   }
 
-
+  //Bonus: Print the top 10 most common runway identifications (indicated in "le_ident" column)
   def TopCommonRunway(n:Int)(implicit context:Context):List[String] ={
-    context.Airports.flatMap(_.runways)
+    context.Airports
+            .flatMap(_.runways)
             .groupBy(_.le_ident)
             .toList
             .sortBy(_._2.length)
             .reverse.take(n)
             .map(_._2.head.le_ident)
   }
-
-
 }

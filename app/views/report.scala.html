@@ -1,33 +1,40 @@
 @(result: ReportResult)
 
 @main("Report") {
-    <table>
-        <caption>10 countries with highest number of airports</caption>
-        <tr><th>Country Name </th><th>Airport Count </th></tr>
-        @for((country, count) <- result.hAirport) {
-            <tr>
-                <td> @country.name </td>
-                <td> @count </td>
-            </tr>
-        }
-    </table>
+    <ul>
+        <li><a href="#e221">10 countries with highest number of airports (with count) and countries with lowest number of airports</a></li>
+        <li><a href="#e222">Type of runways (as indicated in "surface" column) per country</a></li>
+        <li><a href="#e223">Print the top 10 most common runway identifications (indicated in "le_ident" column)</a></li>
+    </ul>
 
 
-    <table>
-        <caption>10 countries with  lowest number of airports</caption>
-        <tr><th>Country Name </th><th>Airport Count </th></tr>
-        @for((country,count)<-result.lAirport){
-            <tr>
-                <td> @country.name </td>
-                <td> @count </td>
-            </tr>
-        }
-    </table>
+    <div id="e221">
+        <table>
+            <caption>10 countries with highest number of airports</caption>
+            <tr><th>Country Name </th><th>Airport Count </th></tr>
+            @for((country, count) <- result.hAirport) {
+                <tr>
+                    <td> @country.name </td>
+                    <td> @count </td>
+                </tr>
+            }
+        </table>
 
-    <div>
+
+        <table>
+            <caption>10 countries with  lowest number of airports</caption>
+            <tr><th>Country Name </th><th>Airport Count </th></tr>
+            @for((country,count)<-result.lAirport){
+                <tr>
+                    <td> @country.name </td>
+                    <td> @count </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div id="e222">
         <caption>Type of runways (as indicated in "surface" column) per country</caption>
-
-
         @for((country,runways)<-result.runwaysCountry){
             <table>
                 <caption>@country.name</caption>
@@ -44,7 +51,7 @@
         }
     </div>
 
-    <div>
+    <div id="e223">
         <caption>Print the top 10 most common runway identifications (indicated in "le_ident" column)</caption>
         <table>
         @for(runway<-result.commonRunway){
